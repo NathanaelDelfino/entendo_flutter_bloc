@@ -1,16 +1,15 @@
-# entendo_flutter_bloc
+# BLoC em Flutter
 
-A new Flutter project.
+Aprendendo sobre o padrão de arquitetura BLoC com Flutter.
+O BLoC é um padrão de arquitetura que visa separar a lógica de negócio da interface do usuário.
 
-## Getting Started
+## Por onde começar?
 
-This project is a starting point for a Flutter application.
+para esse projeto foi necessário os seguintes pacotes:
 
-A few resources to get you started if this is your first Flutter project:
+```yaml
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.2
+  uuid: ^3.0.7
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
