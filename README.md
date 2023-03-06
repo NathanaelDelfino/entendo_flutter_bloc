@@ -13,3 +13,6 @@ para esse projeto foi necessário os seguintes pacotes:
   uuid: ^3.0.7
 ```
 
+## Resultado:
+
+<img width="305" alt="Captura de Tela 2023-03-05 às 02 48 52" src="https://user-images.githubusercontent.com/7662248/222943903-8f566799-5062-4697-992d-6aa6288ba293.png">
