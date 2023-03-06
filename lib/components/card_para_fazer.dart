@@ -32,7 +32,7 @@ class _CardParaFazerState extends State<CardParaFazer> {
                 widget.todo.tarefaCompletada();
                 context.read<TodosBloc>().add(AtualizarTodos(widget.todo));
                 setState(() {
-                  completada = widget.todo.estaCompletada!;
+                  completada = widget.todo.estaCompletada;
                 });
               },
             ),
