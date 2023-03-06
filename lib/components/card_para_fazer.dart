@@ -14,7 +14,7 @@ class CardParaFazer extends StatefulWidget {
 class _CardParaFazerState extends State<CardParaFazer> {
   @override
   Widget build(BuildContext context) {
-    var completada = widget.todo.estaCompletada!;
+    var completada = widget.todo.estaCompletada;
     return Card(
       child: ListTile(
         title: Text(widget.todo.titulo),

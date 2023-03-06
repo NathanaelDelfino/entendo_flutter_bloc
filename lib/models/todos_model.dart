@@ -5,13 +5,13 @@ class Todo extends Equatable {
   String? id;
   final String titulo;
   final String descricao;
-  bool? estaCompletada;
+  bool estaCompletada = false;
   bool? estaCancelada;
 
   Todo({
     required this.titulo,
     required this.descricao,
-    this.estaCompletada,
+    this.estaCompletada = false,
     this.estaCancelada,
     String? id,
   }) {
@@ -37,7 +37,7 @@ class Todo extends Equatable {
   }
 
   void tarefaCompletada() {
-    estaCompletada = !estaCompletada!;
+    estaCompletada = !estaCompletada;
   }
 
   @override
