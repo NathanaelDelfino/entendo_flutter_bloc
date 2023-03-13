@@ -1,4 +1,3 @@
-import 'package:entendo_flutter_bloc/blocs/todos/todos_bloc.dart';
 import 'package:entendo_flutter_bloc/blocs/todos_filtro/todos_filtro_bloc.dart';
 import 'package:entendo_flutter_bloc/components/card_para_fazer.dart';
 import 'package:entendo_flutter_bloc/models/todos_filtro_model.dart';
@@ -38,19 +37,13 @@ class _HomePageState extends State<HomeScreen> {
             onTap: (tabIndex) {
               switch (tabIndex) {
                 case 0:
-                  BlocProvider.of<TodosFiltroBloc>(context).add(
-                      const TodosFiltroAtualiza(
-                          filtroDeTodos: TodosFiltro.all));
+                  RecarregaFiltro(context, TodosFiltro.all);
                   break;
                 case 1:
-                  BlocProvider.of<TodosFiltroBloc>(context).add(
-                      const TodosFiltroAtualiza(
-                          filtroDeTodos: TodosFiltro.pendente));
+                  RecarregaFiltro(context, TodosFiltro.pendente);
                   break;
                 case 2:
-                  BlocProvider.of<TodosFiltroBloc>(context).add(
-                      const TodosFiltroAtualiza(
-                          filtroDeTodos: TodosFiltro.completada));
+                  RecarregaFiltro(context, TodosFiltro.completada);
                   break;
                 default:
               }
@@ -70,17 +63,38 @@ class _HomePageState extends State<HomeScreen> {
         ),
         body: TabBarView(
           children: [
-            _todos('Todas'),
-            _todos('Pendentes'),
-            _todos('Completas'),
+            _todos('Todas', TodosFiltro.all),
+            _todos('Pendentes', TodosFiltro.pendente),
+            _todos('Completas', TodosFiltro.completada),
           ],
         ),
       ),
     );
   }
 
-  BlocBuilder<TodosFiltroBloc, TodosFiltroState> _todos(String titulo) {
-    return BlocBuilder<TodosFiltroBloc, TodosFiltroState>(
+  RecarregaFiltro(BuildContext context, TodosFiltro filtro) {
+    BlocProvider.of<TodosFiltroBloc>(context)
+        .add(TodosFiltroAtualiza(filtroDeTodos: filtro));
+  }
+
+  BlocConsumer<TodosFiltroBloc, TodosFiltroState> _todos(
+      String titulo, TodosFiltro filtro) {
+    final size = MediaQuery.of(context).size;
+    return BlocConsumer<TodosFiltroBloc, TodosFiltroState>(
+      listener: (context, state) {
+        if (state is TodosFiltroCarregado) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${state.todosFiltrados.length} tarefas',
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is TodosFiltroCarregando) {
           return const Center(
@@ -105,16 +119,22 @@ class _HomePageState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: SizedBox(
-                      height: 550,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.todosFiltrados.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return CardParaFazer(
-                              todo: state.todosFiltrados[index]);
-                        },
+                  Container(
+                    height: size.height * 0.65,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.todosFiltrados.length,
+                            itemBuilder: (BuildContext context, index) {
+                              return CardParaFazer(
+                                  todo: state.todosFiltrados[index],
+                                  atualizarTarefa: () =>
+                                      RecarregaFiltro(context, filtro));
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

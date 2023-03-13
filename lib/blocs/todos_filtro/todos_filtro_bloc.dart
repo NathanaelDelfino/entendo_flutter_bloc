@@ -43,11 +43,11 @@ class TodosFiltroBloc extends Bloc<TodosFiltroEvent, TodosFiltroState> {
           case TodosFiltro.all:
             return true;
           case TodosFiltro.completada:
-            return todo.estaCompletada!;
+            return todo.estaCompletada;
           case TodosFiltro.cancelada:
             return todo.estaCancelada!;
           case TodosFiltro.pendente:
-            return !(todo.estaCompletada! || todo.estaCancelada!);
+            return !(todo.estaCompletada || todo.estaCancelada!);
         }
       }).toList();
 

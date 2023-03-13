@@ -5,8 +5,13 @@ import '../blocs/todos/todos_bloc.dart';
 import '../models/todos_model.dart';
 
 class CardParaFazer extends StatefulWidget {
-  const CardParaFazer({super.key, required this.todo});
+  const CardParaFazer({
+    super.key,
+    required this.todo,
+    required this.atualizarTarefa,
+  });
   final Todo todo;
+  final Function atualizarTarefa;
   @override
   State<CardParaFazer> createState() => _CardParaFazerState();
 }
@@ -14,7 +19,6 @@ class CardParaFazer extends StatefulWidget {
 class _CardParaFazerState extends State<CardParaFazer> {
   @override
   Widget build(BuildContext context) {
-    var completada = widget.todo.estaCompletada;
     return Card(
       child: ListTile(
         title: Text(widget.todo.titulo),
@@ -25,14 +29,15 @@ class _CardParaFazerState extends State<CardParaFazer> {
             IconButton(
               icon: Icon(
                 Icons.add_task,
-                color: completada ? Colors.green : Colors.grey,
+                color:
+                    ObterSeAAtividadeEstaCompleta ? Colors.green : Colors.grey,
               ),
               onPressed: () {
-                completada = !completada;
                 widget.todo.tarefaCompletada();
                 context.read<TodosBloc>().add(AtualizarTodos(widget.todo));
+                widget.atualizarTarefa();
                 setState(() {
-                  completada = widget.todo.estaCompletada;
+                  ObterSeAAtividadeEstaCompleta;
                 });
               },
             ),
@@ -47,4 +52,6 @@ class _CardParaFazerState extends State<CardParaFazer> {
       ),
     );
   }
+
+  bool get ObterSeAAtividadeEstaCompleta => widget.todo.estaCompletada;
 }

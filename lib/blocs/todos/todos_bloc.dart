@@ -32,12 +32,14 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   void _aoAtualizarTodos(AtualizarTodos event, Emitter<TodosState> emit) {
     final state = this.state;
     if (state is TodosCarregados) {
-      var todos = state.todos.map((todo) {
-        return todo.id == event.todo.id ? event.todo : todo;
-      }).toList();
+      // var todos = state.todos.map((todo) {
+      //   return todo.id == event.todo.id ? event.todo : todo;
+      // }).toList();
+      state.todos[state.todos
+          .indexWhere((element) => element.id == event.todo.id)] = event.todo;
 
       emit(
-        TodosCarregados(todos: todos),
+        TodosCarregados(todos: state.todos),
       );
     }
   }
